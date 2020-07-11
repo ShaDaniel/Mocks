@@ -24,6 +24,15 @@ namespace Mocks.Models
             return JsonConvert.SerializeObject(data, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
         }
 
+        public enum Valid
+        {
+            Notfound,
+            Valid,
+            Invalid
+        }
+        /*
+         * 
+         */
         public static string GetPass(string guid)
         {
             using (var connection = DBUtils.DBConnection())
@@ -82,6 +91,22 @@ namespace Mocks.Models
                 connection.Open();
                 var res = connection.Execute(sql);
                 return Convert.ToBoolean(res);
+            }
+        }
+
+        public static Valid ValidatePass(string guid)
+        {
+            using (var connection = DBUtils.DBConnection())
+            {
+                var sql = $"SELECT DateTo FROM passes WHERE GUID = '{guid}'";
+
+                connection.Open();
+                var date = connection.QuerySingleOrDefault<DateTime?>(sql);
+                if (date == null)
+                    return Valid.Notfound;
+                if (date < DateTime.Now)
+                    return Valid.Invalid;
+                return Valid.Valid;
             }
         }
     }
