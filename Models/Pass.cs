@@ -33,7 +33,7 @@ namespace Mocks.Models
         /*
          * 
          */
-        public static string GetPass(string guid)
+        public static Pass GetPass(string guid)
         {
             using (var connection = DBUtils.DBConnection())
             {
@@ -43,23 +43,26 @@ namespace Mocks.Models
                 var result = connection.QuerySingleOrDefault<Pass>(sql);
                 if (result == null)
                     return null;
-                return ToJson(result);
+                return result;
             }
         }
 
-        public static string SavePass(Pass pass)
+        public static Pass SavePass(Pass pass)
         {
             var guid = System.Guid.NewGuid().ToString();
             using (var connection = DBUtils.DBConnection())
             {
-                var sql = @$"INSERT INTO passes VALUES ('{guid}', '{pass.PersonName}',
+                // Добавить конкретные поля перед values
+                var sql = @$"INSERT INTO passes 
+                        (guid, personName, personSurname, personPatronymic,
+                        passportNumber, dateFrom, dateTo) VALUES ('{guid}', '{pass.PersonName}',
                                                    '{pass.PersonSurname}', '{pass.PersonPatronymic}',
                                                    '{pass.PassportNumber}', '{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}',
                                                    '{DateTime.Now.AddDays(2).ToString("yyyy-MM-dd hh:mm:ss")}')";
                 connection.Open();
                 connection.Execute(sql);
             }
-            return ToJson(guid);
+            return new Pass { Guid = guid };
         }
 
         public static bool UpdatePass(Pass pass)

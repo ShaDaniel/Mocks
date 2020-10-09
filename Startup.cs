@@ -37,6 +37,7 @@ namespace Mocks
                     contractResolver.NamingStrategy = new CamelCaseNamingStrategy();
                     opt.SerializerSettings.DateParseHandling = DateParseHandling.None;
                     opt.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    opt.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                     // Set default JSON.NET settings
                     JsonConvert.DefaultSettings = () => opt.SerializerSettings;
                 });

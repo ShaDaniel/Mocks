@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 namespace Mocks.Controllers
 {
+
     [Route("pass")]
     [ApiController]
     public class PassController : Controller
@@ -17,11 +18,11 @@ namespace Mocks.Controllers
         [HttpGet("{guid}")]
         public ActionResult Get(string guid)
         {
-            string response;
+            Pass response;
 
             if ((response = Pass.GetPass(guid)) != null)
             {
-                return Content(response);
+                return Ok(response);
             }
             return NotFound();
         }
@@ -29,7 +30,7 @@ namespace Mocks.Controllers
         [HttpPost]
         public ActionResult Post(Pass pass)
         {
-            return (Content(Pass.SavePass(pass)));
+            return Ok(Pass.SavePass(pass));
         }
 
         [HttpPut]
