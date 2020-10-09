@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "IIS Express": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "launchUrl": "ping",
+      "applicationUrl": "http://0.0.0.0:9999/",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
